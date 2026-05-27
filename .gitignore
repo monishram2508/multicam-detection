@@ -95,6 +95,8 @@ ipython_config.py
 # Pipfile.lock
 
 *.pt
+*.onnx
+models/
 venv/
 *.DS_Store
 
