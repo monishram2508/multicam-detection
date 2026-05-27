@@ -96,6 +96,7 @@ ipython_config.py
 
 *.pt
 venv/
+*.DS_Store
 
 # UV
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
