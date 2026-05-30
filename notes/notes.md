@@ -1,8 +1,8 @@
 # NOTES 
 
-## Frame Loading Process:
+## Frame Loading Process - [frame_loader.py](../src/frame_loader.py)
 
-To my understanding, this is what [frame_loader.py](../src/frame_loader.py) does:
+To my understanding,:
 - Creates a class called frameloader which is an object basically reads a video path using a cv2 function (VideoCapture()), and returns frames according to the function call.
 - There are two situations:
   1. Video files are in the hard drive, already pre-recorded (testing case; usually not the case in most real-life implementations)
@@ -17,9 +17,9 @@ Now, this is not the case for a live feed scenario:
 - If we loop through the frames sequentially, there will be timing issues in the case of actual camera-sourced video feeds. Since video files are processed and have technically the exact same FPS, the frames come in at zero offset.
 - To solve this problem, we use a timestamp validation technique, i.e. if the frames' timestamps are within a certain threshold (e.g. 10ms), the batch is taken, else, dropped.
 
-## Detection Pipeline - as in [detection.py](../src/detection.py)
+## Detection Pipeline - [detection.py](../src/detection.py)
 
-- We have a yolov8detector class, which opens the ONNX model using CPU providers. This object has the following methods:
+- We have a yolov8detector class, which opens the [ONNX](definitions.md#ONNX) model using CPU providers. This object has the following methods:
   1. preprocess() - carries out resizing, normalization (0-255 to 0-1), color format conversion (BGR to RGB), HWC to CHW conversion, and addition of batch dimension (CHW to BCHW)
   2. _postprocess() - parses raw ONNX model output and extracts detections. 
     - ONNX outputs shape (1,8400,84) which needs transposing. (1,8400,84) is a tensor shape of the format (batch dimension,number of predictions,values per prediction). So, this is the dimension of the output array.
@@ -30,3 +30,9 @@ Now, this is not the case for a live feed scenario:
       4. The highest probable class is then found, and the final confidence is returned as the product of the class confidence and the detection confidence. 
       5. The detected object is recorded if the confidence exceeds a certain threshold.
 
+## Creating Test Videos - [create_video.py](../src/create_video.py)
+
+- Setting dimensions as 640x480, with fps=30 and duration=10 (seconds) as default values.
+- Creates VideoWriter object. Internally OpenCV checks if [codec](definitions.md#codec) exists on the system, if the system contains the mp4v codec library. Initiliazes the codec: loads the "mp4v" encoder, configures it with the settings in point 1. Returns object ready to accept frames.
+- Writes frames to the object; takes raw frame, encodes with encoder, writes compressed data to file, update frame_count in metadata
+- Release and finalize. 
