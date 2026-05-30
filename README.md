@@ -1,5 +1,10 @@
 # Real-Time Multi-Camera Object Detection Pipeline
 
+![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.8-red?logo=pytorch)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-black)
+![ONNX](https://img.shields.io/badge/ONNX-Runtime-green?logo=onnx)
+
 **Production-ready computer vision system for synchronized multi-camera detection with inference optimization.**
 
 ---
